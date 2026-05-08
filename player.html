@@ -127,15 +127,30 @@
       font-size: .82rem; cursor: pointer; backdrop-filter: blur(6px);
     }
 
-    /* ── Sound btn ── */
-    #soundBtn {
-      position: fixed; bottom: 20px; right: 30px; z-index: 50;
-      background: rgba(0,0,0,.4); border: 1px solid rgba(255,255,255,.2);
-      color: rgba(255,255,255,.6); padding: 7px 16px; border-radius: 3px;
-      font-size: .78rem; cursor: pointer; display: none;
-      animation: blink 1.5s ease-in-out infinite;
+    /* ── Tap-to-start overlay ── */
+    #tapOverlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(0,0,0,.82);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 18px;
+      cursor: pointer;
     }
-    @keyframes blink { 0%,100%{opacity:.4} 50%{opacity:1} }
+    #tapOverlay .tap-n {
+      font-family: 'Bebas Neue', 'Arial Black', Arial, sans-serif;
+      font-size: min(28vw, 200px);
+      color: #E50914; line-height: 1;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 30px rgba(229,9,20,.4); }
+      to   { text-shadow: 0 0 80px rgba(229,9,20,.9), 0 0 160px rgba(229,9,20,.4); }
+    }
+    #tapOverlay .tap-hint {
+      font-size: .78rem; letter-spacing: 5px;
+      color: rgba(255,255,255,.4); text-transform: uppercase;
+      animation: blink 1.8s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:.3} 50%{opacity:.9} }
 
     body { animation: fadeIn .5s ease; }
     @keyframes fadeIn { from{opacity:0} to{opacity:1} }
@@ -145,12 +160,17 @@
 </head>
 <body>
 
+  <!-- tap-to-start overlay -->
+  <div id="tapOverlay">
+    <div class="tap-n">N</div>
+    <div class="tap-hint">tap to play</div>
+  </div>
+
   <div id="stage"></div>
 
   <div id="progressBar"><div id="progressFill"></div></div>
   <div id="counter"></div>
   <button id="backBtn" onclick="goBack()">← Back</button>
-  <button id="soundBtn" onclick="enableMusic()" style="display:none">🎵 Music</button>
 
   <script>
   (function () {
@@ -245,26 +265,22 @@
       timer = setInterval(next, SLIDE_MS);
     }
 
-    show(0);
-    startTimer();
-
-    // ── Music: Die For You (trimmed from 1:11) ───────
+    // ── Music ────────────────────────────────────────
     const music = new Audio('slideshow-music.mp3');
     music.volume = 0.85;
 
-    function tryPlay() {
-      if (!music.paused) return;
+    // ── Tap-to-start: real user gesture unlocks audio ─
+    const overlay = document.getElementById('tapOverlay');
+    overlay.addEventListener('pointerdown', function launch() {
+      overlay.removeEventListener('pointerdown', launch);
+      overlay.style.transition = 'opacity .3s';
+      overlay.style.opacity = '0';
+      setTimeout(() => { overlay.style.display = 'none'; }, 320);
+
       music.play().catch(() => {});
-    }
-
-    window.enableMusic = tryPlay;
-
-    // Try immediately (works if audio was unlocked on intro page)
-    tryPlay();
-
-    // Retry on every interaction until it actually starts
-    document.addEventListener('click', tryPlay);
-    document.addEventListener('touchstart', tryPlay);
+      show(0);
+      startTimer();
+    }, { once: true });
 
     // ── Navigation ───────────────────────────────────
     function goTo(url) {
