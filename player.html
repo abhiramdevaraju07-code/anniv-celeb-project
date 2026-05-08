@@ -251,25 +251,20 @@
     // ── Music: Die For You (trimmed from 1:11) ───────
     const music = new Audio('slideshow-music.mp3');
     music.volume = 0.85;
-    let musicOn = false;
 
-    function startMusic() {
-      if (musicOn) return;
-      musicOn = true;
-      document.getElementById('soundBtn').style.display = 'none';
-      music.currentTime = 0;
+    function tryPlay() {
+      if (!music.paused) return;
       music.play().catch(() => {});
     }
 
-    window.enableMusic = startMusic;
+    window.enableMusic = tryPlay;
 
-    // Try autoplay immediately (works if user already interacted on a previous page)
-    music.play()
-      .then(() => { musicOn = true; })
-      .catch(() => {
-        // Silently start on very first interaction — tap on stage, back btn, anywhere
-        document.addEventListener('pointerdown', startMusic, { once: true });
-      });
+    // Try immediately (works if audio was unlocked on intro page)
+    tryPlay();
+
+    // Retry on every interaction until it actually starts
+    document.addEventListener('click', tryPlay);
+    document.addEventListener('touchstart', tryPlay);
 
     // ── Navigation ───────────────────────────────────
     function goTo(url) {
