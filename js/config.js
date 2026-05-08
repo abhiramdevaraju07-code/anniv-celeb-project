@@ -5,8 +5,8 @@
 
 const CONFIG = {
   // ── YOUR NAMES ───────────────────────────────────────────
-  yourName:      "YOUR NAME",       // e.g. "Aryan"
-  partnerName:   "PARTNER'S NAME",  // e.g. "Jia"
+  yourName:      "Abhiram",
+  partnerName:   "Prachi",
 
   // ── SHOW DETAILS ─────────────────────────────────────────
   showTitle:     "Our Story",       // Big title on browse page
