@@ -11,7 +11,7 @@ const CONFIG = {
   // ── SHOW DETAILS ─────────────────────────────────────────
   showTitle:     "Our Story",       // Big title on browse page
   anniversary:   "3 Month Anniversary",
-  startDate:     "February 2026",   // When it all started
+  startDate:     "February 07, 2026",
 
   // ── HERO SECTION ─────────────────────────────────────────
   heroPhoto:       "images/hero.jpg",        // Main featured photo
@@ -41,7 +41,7 @@ const CONFIG = {
   ],
 
   // ── CREDITS PAGE ─────────────────────────────────────────
-  favoriteLocation: "Our Favorite Spot",
+  favoriteLocation: "DD Hills",
   creditsPhoto:     "images/profiles/month-3.jpg",  // small photo shown beside credits
 
   // Special credits end message
