@@ -91,22 +91,6 @@
       color:rgba(255,255,255,.7); padding:7px 18px; border-radius:3px;
       font-size:.82rem; cursor:pointer; backdrop-filter:blur(6px);
     }
-    #musicBtn {
-      position:fixed; bottom:24px; right:24px; z-index:50;
-      background:rgba(229,9,20,.85); border:none;
-      color:#fff; padding:9px 18px; border-radius:4px;
-      font-size:.85rem; cursor:pointer;
-      animation:blink 1.4s ease-in-out infinite;
-      display:none;
-    }
-    #volToast {
-      position:fixed; bottom:60px; left:50%; transform:translateX(-50%);
-      z-index:99; background:rgba(0,0,0,.85);
-      color:#fff; padding:10px 22px; border-radius:6px;
-      font-size:.9rem; letter-spacing:1px;
-      pointer-events:none; opacity:0;
-      transition:opacity .4s;
-    }
 
     /* ── CREDITS (inline, same page) ── */
     #creditsScreen {
@@ -177,25 +161,17 @@
 </head>
 <body>
 
-  <!-- VIDEO used instead of AUDIO — browsers (incl. Brave) block <audio> autoplay
-       but allow <video> with user gesture. 2×2 black video track, audio is Die For You. -->
-  <video id="bgMusic" src="slideshow-music.mp4" preload="auto"
-         playsinline webkit-playsinline muted="false"
-         style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;"></video>
+  <audio id="bgMusic" src="slideshow-music.mp3" preload="auto"></audio>
 
-  <!-- START SCREEN — full-screen button, guaranteed user gesture -->
   <button id="startBtn">
     <span class="n">N</span>
     <span class="hint">tap to play</span>
   </button>
 
-  <!-- SLIDESHOW -->
   <div id="stage"></div>
   <div id="progressBar"><div id="progressFill"></div></div>
   <div id="counter"></div>
   <button id="backBtn" onclick="goBack()">← Back</button>
-  <button id="musicBtn" onclick="retryMusic()">🎵 Music</button>
-  <div id="volToast">🔊 Turn up your volume!</div>
 
   <!-- CREDITS (inline, no page navigation) -->
   <div id="creditsScreen">
@@ -216,48 +192,12 @@
     const music = document.getElementById('bgMusic');
     music.volume = 0.85;
 
-    // Auto-retry if audio fails (e.g. network change mid-load)
-    let retries = 0;
-    function reloadMusic() {
-      if (retries++ > 3) {
-        document.getElementById('musicBtn').style.display = 'block';
-        return;
-      }
-      music.load();
-      music.play().catch(() => {});
-    }
-    music.addEventListener('error', reloadMusic);
-    music.addEventListener('stalled', reloadMusic);
-
-    function showVolToast() {
-      const t = document.getElementById('volToast');
-      t.style.opacity = '1';
-      setTimeout(() => { t.style.opacity = '0'; }, 3000);
-    }
-
-    // ── START BUTTON ─────────────────────────────────────────
     document.getElementById('startBtn').addEventListener('click', function() {
       this.style.display = 'none';
-      music.muted = false;
-      music.play()
-        .then(() => {
-          document.getElementById('musicBtn').style.display = 'none';
-          showVolToast(); // remind user to turn up volume
-        })
-        .catch((e) => {
-          const btn = document.getElementById('musicBtn');
-          btn.textContent = '🎵 ' + (e.name || 'tap for music');
-          btn.style.display = 'block';
-        });
+      music.play().catch(() => {});
       show(0);
       startTimer();
     });
-
-    window.retryMusic = function() {
-      music.play()
-        .then(() => { document.getElementById('musicBtn').style.display = 'none'; })
-        .catch(() => {});
-    };
 
     // ── PHOTOS ───────────────────────────────────────────────
     const PHOTOS = [
