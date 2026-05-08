@@ -99,6 +99,14 @@
       animation:blink 1.4s ease-in-out infinite;
       display:none;
     }
+    #volToast {
+      position:fixed; bottom:60px; left:50%; transform:translateX(-50%);
+      z-index:99; background:rgba(0,0,0,.85);
+      color:#fff; padding:10px 22px; border-radius:6px;
+      font-size:.9rem; letter-spacing:1px;
+      pointer-events:none; opacity:0;
+      transition:opacity .4s;
+    }
 
     /* ── CREDITS (inline, same page) ── */
     #creditsScreen {
@@ -186,6 +194,7 @@
   <div id="counter"></div>
   <button id="backBtn" onclick="goBack()">← Back</button>
   <button id="musicBtn" onclick="retryMusic()">🎵 Music</button>
+  <div id="volToast">🔊 Turn up your volume!</div>
 
   <!-- CREDITS (inline, no page navigation) -->
   <div id="creditsScreen">
@@ -213,11 +222,21 @@
       btn.style.display = 'block';
     });
 
+    function showVolToast() {
+      const t = document.getElementById('volToast');
+      t.style.opacity = '1';
+      setTimeout(() => { t.style.opacity = '0'; }, 3000);
+    }
+
     // ── START BUTTON ─────────────────────────────────────────
     document.getElementById('startBtn').addEventListener('click', function() {
       this.style.display = 'none';
+      music.muted = false;
       music.play()
-        .then(() => { document.getElementById('musicBtn').style.display = 'none'; })
+        .then(() => {
+          document.getElementById('musicBtn').style.display = 'none';
+          showVolToast(); // remind user to turn up volume
+        })
         .catch((e) => {
           const btn = document.getElementById('musicBtn');
           btn.textContent = '🎵 ' + (e.name || 'tap for music');
