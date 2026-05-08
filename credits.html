@@ -8,9 +8,13 @@
 </head>
 <body class="credits-page">
 
-  <!-- ── SIDE PHOTO ───────────────────────────────────── -->
-  <div class="credits-side-photo g1">
-    <img id="creditsPhoto" src="" alt="Us" onerror="this.style.display='none'">
+  <!-- ── SIDE N LOGO ──────────────────────────────────── -->
+  <div class="credits-side-photo" style="background:#000; display:flex; align-items:center; justify-content:center;">
+    <span style="
+      font-family:'Bebas Neue','Arial Black',Arial,sans-serif;
+      font-size:7rem; color:#E50914; line-height:1;
+      text-shadow: 0 0 30px rgba(229,9,20,.6), 0 0 70px rgba(229,9,20,.3);
+    ">N</span>
   </div>
 
   <!-- ── SCROLLING CREDITS ────────────────────────────── -->
@@ -39,11 +43,6 @@
 
   <script src="js/config.js"></script>
   <script>
-    // ── Side photo ────────────────────────────────────────
-    const cp = document.getElementById('creditsPhoto');
-    cp.src = CONFIG.creditsPhoto;
-    cp.onerror = () => { cp.style.display = 'none'; };
-
     // ── Build credits HTML ────────────────────────────────
     function row(role, name, highlight = false) {
       return `
