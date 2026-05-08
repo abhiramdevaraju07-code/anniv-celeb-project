@@ -43,6 +43,13 @@
 
   <script src="js/config.js"></script>
   <script>
+    // Die For You plays through credits (origin already unlocked by player.html tap)
+    const music = new Audio('slideshow-music.mp3');
+    music.volume = 0.75;
+    music.loop = true;
+    music.play().catch(() => {});
+  </script>
+  <script>
     // ── Build credits HTML ────────────────────────────────
     function row(role, name, highlight = false) {
       return `

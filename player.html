@@ -285,7 +285,7 @@
     // ── Navigation ───────────────────────────────────
     function goTo(url) {
       clearInterval(timer);
-      music.pause();
+      if (url !== 'credits.html') music.pause();
       document.body.classList.add('fade-out');
       setTimeout(() => { window.location.href = url; }, 420);
     }
