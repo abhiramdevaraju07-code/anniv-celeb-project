@@ -4,28 +4,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Our Story</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#000; overflow:hidden; height:100vh; }
+    body { background:#000; overflow:hidden; height:100vh; cursor:pointer; }
+
     video {
       position:fixed; inset:0;
       width:100%; height:100%;
       object-fit:cover;
+      opacity:0;
     }
+
+    /* Full-screen tap overlay */
+    #tap {
+      position:fixed; inset:0; z-index:10;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:24px;
+    }
+
+    .tap-n {
+      font-family:'Bebas Neue',sans-serif;
+      font-size: min(30vw,240px);
+      color:#E50914; line-height:1;
+      animation: pulse 2s ease-in-out infinite alternate;
+    }
+    @keyframes pulse {
+      from { text-shadow: 0 0 30px rgba(229,9,20,.4), 0 0 80px rgba(229,9,20,.15); }
+      to   { text-shadow: 0 0 60px rgba(229,9,20,.9), 0 0 150px rgba(229,9,20,.4); }
+    }
+
+    .tap-hint {
+      font-size:.78rem; letter-spacing:5px;
+      color:rgba(255,255,255,.35); text-transform:uppercase;
+      animation: blink 1.8s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:.3} 50%{opacity:.8} }
   </style>
 </head>
 <body>
-  <video id="v" src="intro.mp4" playsinline autoplay></video>
+
+  <div id="tap">
+    <div class="tap-n">N</div>
+    <div class="tap-hint">tap anywhere</div>
+  </div>
+
+  <video id="v" src="intro.mp4" playsinline></video>
 
   <script>
-    const v = document.getElementById('v');
+    const v   = document.getElementById('v');
+    const tap = document.getElementById('tap');
 
-    // Try to play with sound; fall back to muted if blocked
-    v.muted = false;
-    v.play().catch(() => {
-      v.muted = true;
+    document.addEventListener('pointerdown', function start() {
+      document.removeEventListener('pointerdown', start);
+
+      // Real user gesture — audio now unlocked
+      v.muted = false;
       v.play();
-    });
+
+      // Fade tap screen out, fade video in
+      tap.style.transition = 'opacity .3s';
+      tap.style.opacity = '0';
+      v.style.transition = 'opacity .3s';
+      v.style.opacity = '1';
+      setTimeout(() => tap.style.display = 'none', 320);
+    }, { once: true });
 
     v.addEventListener('ended', () => {
       document.body.style.transition = 'opacity .4s';
