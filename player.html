@@ -177,8 +177,11 @@
 </head>
 <body>
 
-  <!-- AUDIO — src attribute (not <source>) so error events fire correctly -->
-  <audio id="bgMusic" src="slideshow-music.mp3" preload="auto"></audio>
+  <!-- VIDEO used instead of AUDIO — browsers (incl. Brave) block <audio> autoplay
+       but allow <video> with user gesture. 2×2 black video track, audio is Die For You. -->
+  <video id="bgMusic" src="slideshow-music.mp4" preload="auto"
+         playsinline webkit-playsinline muted="false"
+         style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;"></video>
 
   <!-- START SCREEN — full-screen button, guaranteed user gesture -->
   <button id="startBtn">
