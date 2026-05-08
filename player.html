@@ -150,7 +150,7 @@
   <div id="progressBar"><div id="progressFill"></div></div>
   <div id="counter"></div>
   <button id="backBtn" onclick="goBack()">← Back</button>
-  <button id="soundBtn" onclick="enableMusic()">🎵 Music</button>
+  <button id="soundBtn" onclick="enableMusic()" style="display:none">🎵 Music</button>
 
   <script>
   (function () {
@@ -257,17 +257,18 @@
       if (musicOn) return;
       musicOn = true;
       document.getElementById('soundBtn').style.display = 'none';
+      music.currentTime = 0;
       music.play().catch(() => {});
     }
 
     window.enableMusic = startMusic;
 
-    // Try autoplay; show button if blocked
+    // Try autoplay immediately (works if user already interacted on a previous page)
     music.play()
       .then(() => { musicOn = true; })
       .catch(() => {
-        document.getElementById('soundBtn').style.display = 'block';
-        document.addEventListener('click', startMusic, { once: true });
+        // Silently start on very first interaction — tap on stage, back btn, anywhere
+        document.addEventListener('pointerdown', startMusic, { once: true });
       });
 
     // ── Navigation ───────────────────────────────────
