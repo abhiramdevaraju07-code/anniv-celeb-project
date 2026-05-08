@@ -169,8 +169,10 @@
 </head>
 <body>
 
-  <!-- AUDIO — in DOM, preloaded -->
-  <audio id="bgMusic" src="slideshow-music.mp3" preload="auto"></audio>
+  <!-- AUDIO — in DOM, preloaded, cache-busted -->
+  <audio id="bgMusic" preload="auto">
+    <source src="slideshow-music.mp3?v=3" type="audio/mpeg">
+  </audio>
 
   <!-- START SCREEN — full-screen button, guaranteed user gesture -->
   <button id="startBtn">
@@ -204,12 +206,23 @@
     const music = document.getElementById('bgMusic');
     music.volume = 0.85;
 
+    // Show music button if audio fails to load at all
+    music.addEventListener('error', function() {
+      const btn = document.getElementById('musicBtn');
+      btn.textContent = '⚠ Audio error';
+      btn.style.display = 'block';
+    });
+
     // ── START BUTTON ─────────────────────────────────────────
     document.getElementById('startBtn').addEventListener('click', function() {
       this.style.display = 'none';
       music.play()
         .then(() => { document.getElementById('musicBtn').style.display = 'none'; })
-        .catch(() => { document.getElementById('musicBtn').style.display = 'block'; });
+        .catch((e) => {
+          const btn = document.getElementById('musicBtn');
+          btn.textContent = '🎵 ' + (e.name || 'tap for music');
+          btn.style.display = 'block';
+        });
       show(0);
       startTimer();
     });
