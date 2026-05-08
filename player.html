@@ -177,10 +177,8 @@
 </head>
 <body>
 
-  <!-- AUDIO — in DOM, preloaded, cache-busted -->
-  <audio id="bgMusic" preload="auto">
-    <source src="slideshow-music.mp3?v=3" type="audio/mpeg">
-  </audio>
+  <!-- AUDIO — src attribute (not <source>) so error events fire correctly -->
+  <audio id="bgMusic" src="slideshow-music.mp3" preload="auto"></audio>
 
   <!-- START SCREEN — full-screen button, guaranteed user gesture -->
   <button id="startBtn">
@@ -215,12 +213,18 @@
     const music = document.getElementById('bgMusic');
     music.volume = 0.85;
 
-    // Show music button if audio fails to load at all
-    music.addEventListener('error', function() {
-      const btn = document.getElementById('musicBtn');
-      btn.textContent = '⚠ Audio error';
-      btn.style.display = 'block';
-    });
+    // Auto-retry if audio fails (e.g. network change mid-load)
+    let retries = 0;
+    function reloadMusic() {
+      if (retries++ > 3) {
+        document.getElementById('musicBtn').style.display = 'block';
+        return;
+      }
+      music.load();
+      music.play().catch(() => {});
+    }
+    music.addEventListener('error', reloadMusic);
+    music.addEventListener('stalled', reloadMusic);
 
     function showVolToast() {
       const t = document.getElementById('volToast');
