@@ -6,101 +6,32 @@
   <title>Our Story</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#000; overflow:hidden; height:100vh; font-family:'Helvetica Neue',sans-serif; }
-
-    /* ── Video (hidden until play) ── */
-    #introVid {
+    body { background:#000; overflow:hidden; height:100vh; }
+    video {
       position:fixed; inset:0;
       width:100%; height:100%;
       object-fit:cover;
-      opacity:0; transition:opacity .3s;
-      z-index:1;
-    }
-
-    /* ── Splash screen ── */
-    #splash {
-      position:fixed; inset:0; z-index:10;
-      background:#000;
-      display:flex; flex-direction:column;
-      align-items:center; justify-content:center; gap:32px;
-      cursor:pointer;
-      transition:opacity .4s;
-    }
-
-    .splash-n {
-      font-family:'Bebas Neue','Arial Black',Arial,sans-serif;
-      font-size: min(28vw, 220px);
-      color:#E50914;
-      line-height:1;
-      text-shadow:
-        0 0 40px rgba(229,9,20,.6),
-        0 0 100px rgba(229,9,20,.25);
-      animation: glow 2.5s ease-in-out infinite alternate;
-    }
-    @keyframes glow {
-      from { text-shadow: 0 0 30px rgba(229,9,20,.5), 0 0 80px rgba(229,9,20,.2); }
-      to   { text-shadow: 0 0 60px rgba(229,9,20,.9), 0 0 140px rgba(229,9,20,.4); }
-    }
-
-    .play-ring {
-      width: 72px; height: 72px; border-radius:50%;
-      border: 2px solid rgba(255,255,255,.6);
-      display:flex; align-items:center; justify-content:center;
-      transition: border-color .2s, transform .2s;
-    }
-    #splash:hover .play-ring {
-      border-color:#fff;
-      transform:scale(1.08);
-    }
-    .play-triangle {
-      width:0; height:0;
-      border-top: 14px solid transparent;
-      border-bottom: 14px solid transparent;
-      border-left: 24px solid white;
-      margin-left:5px;
-    }
-
-    .splash-hint {
-      font-size:.82rem; letter-spacing:3px;
-      color:rgba(255,255,255,.4); text-transform:uppercase;
     }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
 </head>
 <body>
-
-  <video id="introVid" src="intro.mp4" playsinline></video>
-
-  <div id="splash" onclick="startIntro()">
-    <div class="splash-n">N</div>
-    <div class="play-ring"><div class="play-triangle"></div></div>
-    <div class="splash-hint">Tap to Play</div>
-  </div>
+  <video id="v" src="intro.mp4" playsinline autoplay></video>
 
   <script>
-    const vid    = document.getElementById('introVid');
-    const splash = document.getElementById('splash');
+    const v = document.getElementById('v');
 
-    function startIntro() {
-      // User gesture happened — audio is now unlocked
-      vid.muted = false;
-      vid.play();
+    // Try to play with sound; fall back to muted if blocked
+    v.muted = false;
+    v.play().catch(() => {
+      v.muted = true;
+      v.play();
+    });
 
-      // Fade splash out, fade video in
-      splash.style.opacity = '0';
-      splash.style.pointerEvents = 'none';
-      vid.style.opacity = '1';
-
-      setTimeout(() => { splash.style.display = 'none'; }, 420);
-    }
-
-    vid.addEventListener('ended', () => {
+    v.addEventListener('ended', () => {
       document.body.style.transition = 'opacity .4s';
       document.body.style.opacity = '0';
       setTimeout(() => { window.location.href = 'profiles.html'; }, 420);
     });
   </script>
-
 </body>
 </html>
