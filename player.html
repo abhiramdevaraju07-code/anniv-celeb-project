@@ -171,6 +171,12 @@
   <div id="progressBar"><div id="progressFill"></div></div>
   <div id="counter"></div>
   <button id="backBtn" onclick="goBack()">← Back</button>
+  <button id="musicBtn" onclick="playMusic()" style="
+    position:fixed;bottom:24px;right:24px;z-index:50;
+    background:rgba(229,9,20,.85);border:none;
+    color:#fff;padding:9px 18px;border-radius:4px;
+    font-size:.85rem;cursor:pointer;
+    animation:blink 1.4s ease-in-out infinite;">🎵 Music</button>
 
   <script>
   (function () {
@@ -268,16 +274,28 @@
     // ── Music ────────────────────────────────────────
     const music = new Audio('slideshow-music.mp3');
     music.volume = 0.85;
+    music.load();
 
-    // ── Tap-to-start: real user gesture unlocks audio ─
+    window.playMusic = function() {
+      music.play().then(() => {
+        hideMusicBtn();
+      }).catch(() => {});
+    };
+
+    function hideMusicBtn() {
+      const btn = document.getElementById('musicBtn');
+      if (btn) btn.style.display = 'none';
+    }
+
+    music.addEventListener('playing', hideMusicBtn);
+
+    // ── Tap-to-start overlay ─────────────────────────
     const overlay = document.getElementById('tapOverlay');
-    overlay.addEventListener('pointerdown', function launch() {
-      overlay.removeEventListener('pointerdown', launch);
+    overlay.addEventListener('pointerdown', function() {
       overlay.style.transition = 'opacity .3s';
       overlay.style.opacity = '0';
       setTimeout(() => { overlay.style.display = 'none'; }, 320);
-
-      music.play().catch(() => {});
+      window.playMusic();
       show(0);
       startTimer();
     }, { once: true });

@@ -41,13 +41,34 @@
     ">Browse ▶</button>
   </div>
 
+  <!-- music button shown by default; hidden once music starts -->
+  <button id="musicBtn" onclick="startMusic()" style="
+    position:fixed;top:20px;right:20px;z-index:99;
+    background:rgba(229,9,20,.85);border:none;
+    color:#fff;padding:9px 18px;border-radius:4px;
+    font-size:.85rem;cursor:pointer;letter-spacing:1px;
+    animation:musicBlink 1.4s ease-in-out infinite;">🎵 Music</button>
+  <style>@keyframes musicBlink{0%,100%{opacity:.5}50%{opacity:1}}</style>
+
   <script src="js/config.js"></script>
   <script>
-    // Die For You plays through credits (origin already unlocked by player.html tap)
     const music = new Audio('slideshow-music.mp3');
     music.volume = 0.75;
     music.loop = true;
-    music.play().catch(() => {});
+
+    function startMusic() {
+      music.play().then(() => {
+        document.getElementById('musicBtn').style.display = 'none';
+      }).catch(() => {});
+    }
+    window.startMusic = startMusic;
+
+    music.addEventListener('playing', () => {
+      document.getElementById('musicBtn').style.display = 'none';
+    });
+
+    // Try autoplay (works on Chrome/Android if user interacted on previous page)
+    music.play().catch(() => { /* button stays visible for manual tap */ });
   </script>
   <script>
     // ── Build credits HTML ────────────────────────────────

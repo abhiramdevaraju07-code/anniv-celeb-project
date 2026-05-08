@@ -511,7 +511,7 @@ img { max-width: 100%; display: block; }
   to   { transform: translateY(-100%); }
 }
 
-.credits-gap-top  { height: 5vh; }
+.credits-gap-top  { height: 0; }
 .credits-gap-bot  { height: 55vh; }
 
 .credits-header { text-align:center; margin-bottom: 70px; }
