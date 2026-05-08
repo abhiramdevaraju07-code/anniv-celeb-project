@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credits</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="credits-page">
+
+  <!-- ── SIDE PHOTO ───────────────────────────────────── -->
+  <div class="credits-side-photo g1">
+    <img id="creditsPhoto" src="" alt="Us" onerror="this.style.display='none'">
+  </div>
+
+  <!-- ── SCROLLING CREDITS ────────────────────────────── -->
+  <div class="credits-scroll-wrap">
+    <div class="credits-content" id="creditsContent">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- ── REPLAY / HOME BUTTONS (visible after credits) ── -->
+  <div id="endButtons" style="
+    display:none; position:fixed; bottom:40px; right:60px;
+    display:none; gap:12px; z-index:30;
+  ">
+    <button onclick="navigate('index.html')" style="
+      background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.4);
+      color:#fff; padding:10px 24px; border-radius:3px; font-size:.9rem;
+      letter-spacing:1px; cursor:pointer;
+    ">Watch Again</button>
+    <button onclick="navigate('browse.html')" style="
+      background:#E50914; border:none;
+      color:#fff; padding:10px 24px; border-radius:3px; font-size:.9rem;
+      font-weight:700; cursor:pointer;
+    ">Browse ▶</button>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script>
+    // ── Side photo ────────────────────────────────────────
+    const cp = document.getElementById('creditsPhoto');
+    cp.src = CONFIG.creditsPhoto;
+    cp.onerror = () => { cp.style.display = 'none'; };
+
+    // ── Build credits HTML ────────────────────────────────
+    function row(role, name, highlight = false) {
+      return `
+        <div class="credit-row">
+          <div class="credit-role">${role}</div>
+          <div class="credit-name${highlight ? ' highlight' : ''}">${name}</div>
+        </div>`;
+    }
+
+    const content = document.getElementById('creditsContent');
+    content.innerHTML = `
+      <div class="credits-gap-top"></div>
+
+      <div class="credits-header">
+        <div class="credits-badge">A Netflix Original</div>
+        <div class="credits-main-title">
+          Life of ${CONFIG.yourName} &amp; ${CONFIG.partnerName}
+        </div>
+        <div class="credits-main-sub">${CONFIG.anniversary} · ${CONFIG.startDate}</div>
+        <div class="credits-hr"></div>
+      </div>
+
+      ${row('Directed by',               'God', true)}
+      <div class="credits-section-gap"></div>
+
+      ${row('Cast',                        '')}
+      ${row('Boyfriend',                   CONFIG.yourName,     true)}
+      ${row('Girlfriend',                  CONFIG.partnerName,  true)}
+      <div class="credits-section-gap"></div>
+
+      ${row('Written by',                  'Fate &amp; Destiny')}
+      ${row('Produced by',                 'Patience &amp; Support')}
+      ${row('Director of Photography',     'Our Camera Rolls')}
+      ${row('Location',                    CONFIG.favoriteLocation)}
+      ${row('Chief Editor',                'Our Favorite Memories')}
+      ${row('Soundtrack',                  'Melodies of Us')}
+      ${row('Executive Producers',         'Shared Future Plans')}
+      ${row('Technical Advisor',           'Honest Communication')}
+      ${row('Special Thanks',              'Every little moment')}
+      <div class="credits-section-gap"></div>
+
+      <div class="credits-end">
+        <p>${CONFIG.endMessage.replace(/\n/g,'<br>')}</p>
+        <span class="credits-heart">♥</span>
+      </div>
+
+      <div class="credits-gap-bot"></div>
+    `;
+
+    // ── Show end-buttons after credits animation ends ─────
+    const anim = document.querySelector('.credits-content');
+    anim.addEventListener('animationend', () => {
+      document.getElementById('endButtons').style.display = 'flex';
+    });
+
+    function navigate(url) {
+      document.body.classList.add('fade-out');
+      setTimeout(() => { window.location.href = url; }, 450);
+    }
+  </script>
+
+</body>
+</html>

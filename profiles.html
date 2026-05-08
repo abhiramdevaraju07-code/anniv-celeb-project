@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Who's Watching?</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Locked profile ── */
+    .profile-card.locked { cursor: default; }
+    .profile-card.locked:hover { transform: none !important; }
+    .profile-card.locked .profile-avatar {
+      filter: grayscale(0.7) brightness(0.55);
+    }
+    .profile-card.locked:hover .profile-avatar {
+      border-color: transparent !important;
+    }
+    .lock-overlay {
+      position: absolute; inset: 0; z-index: 3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 4px;
+    }
+    .tick-badge {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(70, 211, 105, 0.85);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: white;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    }
+    .lock-label {
+      font-size: .62rem; color: rgba(255,255,255,.55);
+      letter-spacing: 1px; text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* ── Active profile glow ── */
+    .profile-card.active-profile .profile-avatar {
+      box-shadow: 0 0 0 2px #E50914, 0 0 20px rgba(229,9,20,.4);
+    }
+    .active-badge {
+      position: absolute; bottom: -10px; left: 50%;
+      transform: translateX(-50%);
+      background: #E50914; color: white;
+      font-size: .58rem; letter-spacing: 2px; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 20px; white-space: nowrap;
+      z-index: 4;
+    }
+  </style>
+</head>
+<body class="profiles-page">
+
+  <h1 class="profiles-title">Who's Watching?</h1>
+
+  <div class="profiles-grid">
+
+    <!-- Month 1 — locked ✓ -->
+    <div class="profile-card locked">
+      <div class="profile-avatar g7" style="position:relative;">
+        <img src="images/IMG_0012.jpg" alt="Month 1" onerror="this.style.display='none'">
+        <div class="ph-box"><span class="ph-icon">💕</span></div>
+        <div class="lock-overlay">
+          <div class="tick-badge">✓</div>
+          <span class="lock-label">Completed</span>
+        </div>
+      </div>
+      <span class="profile-label">Month 1</span>
+    </div>
+
+    <!-- Month 2 — locked ✓ -->
+    <div class="profile-card locked">
+      <div class="profile-avatar g2" style="position:relative;">
+        <img src="images/IMG_0231.jpg" alt="Month 2" onerror="this.style.display='none'">
+        <div class="ph-box"><span class="ph-icon">🌹</span></div>
+        <div class="lock-overlay">
+          <div class="tick-badge">✓</div>
+          <span class="lock-label">Completed</span>
+        </div>
+      </div>
+      <span class="profile-label">Month 2</span>
+    </div>
+
+    <!-- Month 3 — active ✦ -->
+    <div class="profile-card active-profile" onclick="go()" style="cursor:pointer;">
+      <div class="profile-avatar g1" style="position:relative;">
+        <img src="images/IMG_0504.jpg" alt="Month 3" onerror="this.style.display='none'">
+        <div class="ph-box"><span class="ph-icon">❤️</span></div>
+        <div class="active-badge">Now Playing</div>
+      </div>
+      <span class="profile-label" style="color:#fff; font-weight:500;">Month 3 ♡</span>
+    </div>
+
+  </div>
+
+  <script>
+    function go() {
+      document.body.classList.add('fade-out');
+      setTimeout(() => { window.location.href = 'browse.html'; }, 450);
+    }
+  </script>
+</body>
+</html>

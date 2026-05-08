@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Story</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="browse-page">
+
+  <!-- NAVBAR -->
+  <nav class="netflix-nav" id="navbar">
+    <div class="nav-logo" onclick="nav('profiles.html')" style="cursor:pointer">NETFLIX</div>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Our Story</a></li>
+      <li><a href="#">Memories</a></li>
+    </ul>
+    <div class="nav-right">
+      <span>🔍</span><span>🔔</span><span>👤</span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg g1">
+      <img src="images/IMG_0505.jpg" onerror="this.style.display='none'">
+    </div>
+    <div class="hero-gradient"></div>
+    <div class="hero-content">
+      <div class="n-series-badge"><span class="n">N</span> SERIES</div>
+      <h1 class="hero-title" id="heroTitle">Our Story</h1>
+      <div class="hero-meta">
+        <span class="match">99% Match</span>
+        <span>2026</span>
+        <span class="rating">♡ ROMANTIC</span>
+        <span>3 Months</span>
+      </div>
+      <p class="hero-description">Every photo tells a chapter. Every moment, a memory worth keeping forever.</p>
+      <div class="hero-buttons">
+        <button class="btn-play" onclick="nav('player.html')">
+          <span class="play-icon">▶</span> Play
+        </button>
+        <button class="btn-more" onclick="nav('player.html')">ℹ More Info</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHTS ONLY -->
+  <div class="content-sections" id="highlights"></div>
+
+  <script src="js/config.js"></script>
+  <script>
+    // Navbar solidify on scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('solid', window.scrollY > 50);
+    });
+
+    // All photos for highlights
+    const ALL_PHOTOS = [
+      'images/IMG_0012.jpg','images/IMG_0018.jpg','images/IMG_0037.jpg',
+      'images/IMG_0118.jpg','images/IMG_0148.jpg','images/IMG_0170.jpg',
+      'images/IMG_0179.jpg','images/IMG_0231.jpg','images/IMG_0234.jpg',
+      'images/IMG_0241.jpg','images/IMG_0243.jpg','images/IMG_0244.jpg',
+      'images/IMG_0246.jpg','images/IMG_0248.jpg','images/IMG_0250.jpg',
+      'images/IMG_0251.jpg','images/IMG_0256.jpg','images/IMG_0259.jpg',
+      'images/IMG_0324.jpg','images/IMG_0326.jpg','images/IMG_0332.jpg',
+      'images/IMG_0341.jpg','images/IMG_0342.jpg','images/IMG_0343.jpg',
+      'images/IMG_0344.jpg','images/IMG_0345.jpg','images/IMG_0346.jpg',
+      'images/IMG_0359.jpg','images/IMG_0387.jpg','images/IMG_0388.jpg',
+      'images/IMG_0390.jpg','images/IMG_0396.jpg','images/IMG_0397.jpg',
+      'images/IMG_0410.jpg','images/IMG_0420.jpg','images/IMG_0424.jpg',
+      'images/IMG_0500.jpg','images/IMG_0501.jpg','images/IMG_0502.jpg',
+      'images/IMG_0503.jpg','images/IMG_0504.jpg','images/IMG_0505.jpg',
+      'images/WA1.jpg','images/WA2.jpg','images/WA3.jpg'
+    ];
+
+    const grads = ['g1','g2','g3','g4','g5','g6','g7','g8','g9','g10'];
+
+    // Build highlights row
+    const section = document.createElement('div');
+    section.className = 'content-row';
+    section.innerHTML = '<div class="row-title">✦ Highlights</div>';
+
+    const container = document.createElement('div');
+    container.className = 'cards-container';
+
+    const leftArrow = document.createElement('button');
+    leftArrow.className = 'scroll-arrow left'; leftArrow.innerHTML = '&#8249;';
+    leftArrow.onclick = () => scroll.scrollBy({ left: -620, behavior:'smooth' });
+
+    const rightArrow = document.createElement('button');
+    rightArrow.className = 'scroll-arrow right'; rightArrow.innerHTML = '&#8250;';
+    rightArrow.onclick = () => scroll.scrollBy({ left: 620, behavior:'smooth' });
+
+    const scroll = document.createElement('div');
+    scroll.className = 'cards-scroll';
+
+    ALL_PHOTOS.forEach((src, i) => {
+      const card = document.createElement('div');
+      card.className = 'memory-card';
+      card.onclick = () => nav('player.html?start=' + i);
+      card.innerHTML = `
+        <div class="card-thumb ${grads[i % grads.length]}">
+          <img src="${src}" onerror="this.style.display='none'">
+          <div class="ph-box"><span class="ph-icon">📸</span></div>
+        </div>
+        <div class="card-hover-info">
+          <div class="card-hover-title">Memory #${i+1}</div>
+          <div class="card-hover-sub">♡ Our Highlight</div>
+        </div>`;
+      scroll.appendChild(card);
+    });
+
+    container.appendChild(leftArrow);
+    container.appendChild(scroll);
+    container.appendChild(rightArrow);
+    section.appendChild(container);
+    document.getElementById('highlights').appendChild(section);
+
+    function nav(url) {
+      document.body.classList.add('fade-out');
+      setTimeout(() => { window.location.href = url; }, 450);
+    }
+  </script>
+</body>
+</html>

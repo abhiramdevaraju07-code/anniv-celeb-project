@@ -1,0 +1,610 @@
+/* ============================================================
+   NETFLIX ANNIVERSARY — GLOBAL STYLES
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400&display=swap');
+
+/* ── RESET & BASE ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red:        #E50914;
+  --dark-red:   #8B0000;
+  --bg:         #141414;
+  --black:      #000000;
+  --gray:       #808080;
+  --lgray:      #B3B3B3;
+  --white:      #FFFFFF;
+  --green:      #46d369;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  color: var(--white);
+  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+  animation: pageIn .5s ease forwards;
+}
+
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+img { max-width: 100%; display: block; }
+
+@keyframes pageIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-out {
+  animation: pageOut .45s ease forwards !important;
+  pointer-events: none;
+}
+@keyframes pageOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ── SHARED NAVBAR ────────────────────────────────────────── */
+.netflix-nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 68px;
+  display: flex; align-items: center;
+  padding: 0 60px;
+  z-index: 1000;
+  transition: background .4s;
+  background: linear-gradient(to bottom, rgba(0,0,0,.75) 0%, transparent 100%);
+}
+.netflix-nav.solid { background: var(--bg); }
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  color: var(--red);
+  letter-spacing: 3px;
+  margin-right: 40px;
+  flex-shrink: 0;
+}
+.nav-links { display: flex; gap: 20px; list-style: none; }
+.nav-links a { font-size: .85rem; color: var(--lgray); transition: color .2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--white); }
+.nav-right {
+  margin-left: auto; display: flex; align-items: center;
+  gap: 20px; font-size: 1.3rem;
+}
+.nav-right span { cursor: pointer; transition: transform .2s; }
+.nav-right span:hover { transform: scale(1.15); }
+
+
+/* ============================================================
+   PAGE 1 — INTRO
+   ============================================================ */
+.intro-page {
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+  height: 100vh; overflow: hidden;
+}
+
+.intro-container {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 18px;
+}
+
+.netflix-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: min(38vw, 340px);
+  color: var(--red);
+  line-height: 1;
+  letter-spacing: -5px;
+  text-shadow:
+    -3px 3px 0px rgba(139,0,0,.9),
+    -7px 7px 0px rgba(90,0,0,.6),
+    0 0 60px  rgba(229,9,20,.65),
+    0 0 130px rgba(229,9,20,.35),
+    0 0 220px rgba(229,9,20,.18);
+  animation: netflixIn 3.4s cubic-bezier(.25,.1,.25,1) forwards;
+}
+
+@keyframes netflixIn {
+  0%  { transform: scale(3) perspective(500px) rotateY(15deg); opacity:0; filter:blur(12px); }
+  28% { opacity:1; filter:blur(0); transform: scale(1.06) perspective(500px) rotateY(0deg); }
+  62% { transform: scale(1); opacity:1; }
+  82% { opacity:1; }
+  100%{ opacity:0; transform: scale(.97); filter:blur(4px); }
+}
+
+.intro-tagline {
+  font-size: .85rem; letter-spacing: 8px;
+  color: var(--gray); text-transform: uppercase;
+  animation: fadeInOut 3.4s ease forwards;
+  animation-delay: .25s; opacity: 0;
+}
+@keyframes fadeInOut {
+  0%,100%    { opacity:0; }
+  22%, 78%   { opacity:1; }
+}
+
+.intro-skip {
+  position: fixed; bottom: 40px; right: 60px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.4);
+  color: white; padding: 8px 22px;
+  border-radius: 3px; font-size: .85rem;
+  letter-spacing: 1px; transition: background .2s;
+}
+.intro-skip:hover { background: rgba(255,255,255,.22); }
+
+
+/* ============================================================
+   PAGE 2 — PROFILES
+   ============================================================ */
+.profiles-page {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background:
+    radial-gradient(ellipse at 60% 110%, rgba(100,0,0,.55) 0%, rgba(20,20,20,.7) 45%, #000 100%);
+}
+
+.profiles-title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 400; margin-bottom: 50px;
+  letter-spacing: 1px;
+}
+
+.profiles-grid {
+  display: flex; gap: 35px;
+  flex-wrap: wrap; justify-content: center;
+}
+
+.profile-card {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 12px;
+  cursor: pointer; transition: transform .22s;
+}
+.profile-card:hover { transform: scale(1.1); }
+
+.profile-avatar {
+  width: 150px; height: 150px;
+  border-radius: 6px; overflow: hidden;
+  position: relative;
+  border: 3px solid transparent;
+  transition: border-color .2s;
+}
+.profile-card:hover .profile-avatar { border-color: var(--white); }
+
+.profile-avatar img {
+  width:100%; height:100%;
+  object-fit: cover;
+  position: absolute; inset:0; z-index:1;
+}
+.profile-avatar .ph-box {
+  position:absolute; inset:0; z-index:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:6px;
+}
+.profile-avatar .ph-box .ph-icon { font-size: 3.2rem; opacity:.7; }
+.profile-avatar .ph-box .ph-text { font-size:.65rem; color:rgba(255,255,255,.35); text-align:center; }
+
+.profile-label {
+  color: var(--gray); font-size: .95rem;
+  font-weight: 400; letter-spacing:.5px;
+  transition: color .2s;
+}
+.profile-card:hover .profile-label { color: var(--white); }
+
+.profiles-manage {
+  margin-top: 55px;
+  background: transparent;
+  border: 1px solid var(--gray); color: var(--gray);
+  padding: 10px 30px; font-size: .82rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  border-radius: 2px; transition: border-color .2s, color .2s;
+}
+.profiles-manage:hover { border-color: var(--white); color: var(--white); }
+
+
+/* ============================================================
+   PAGE 3 — BROWSE
+   ============================================================ */
+.browse-page { background: var(--bg); min-height: 100vh; }
+
+/* HERO */
+.hero {
+  position: relative; height: 86vh; min-height: 540px; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #1a0010 0%, #3a0020 35%, #0a0015 65%, #1a0030 100%);
+  background-size: cover; background-position: center top;
+}
+.hero-bg img {
+  width:100%; height:100%;
+  object-fit:cover; object-position: center top;
+  position:absolute; inset:0;
+}
+.hero-gradient {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right,  rgba(20,20,20,.88) 32%, rgba(20,20,20,.1) 68%, transparent 100%),
+    linear-gradient(to top,    rgba(20,20,20,1)   0%,  rgba(20,20,20,.5) 22%, transparent 55%);
+}
+.hero-content {
+  position: absolute; bottom: 16%; left: 60px;
+  max-width: 560px; z-index: 10;
+}
+.n-series-badge {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 12px; font-size: .72rem;
+  letter-spacing: 4px; text-transform: uppercase; color: var(--lgray);
+}
+.n-series-badge .n { color: var(--red); font-weight:900; font-size:.9rem; }
+
+.hero-title {
+  font-size: clamp(2.4rem, 5vw, 4.8rem);
+  font-weight: 900; line-height: 1.05;
+  margin-bottom: 14px;
+  text-shadow: 2px 2px 12px rgba(0,0,0,.7);
+  letter-spacing: -1px;
+}
+.hero-meta {
+  display:flex; gap:14px; align-items:center;
+  margin-bottom: 12px; font-size:.83rem; color:var(--lgray);
+}
+.hero-meta .match { color:var(--green); font-weight:700; }
+.hero-meta .rating {
+  border:1px solid var(--lgray); padding:1px 5px;
+  font-size:.72rem; letter-spacing:1px;
+}
+
+.hero-description {
+  font-size: .94rem; color: #ddd;
+  line-height: 1.68; margin-bottom: 22px; font-weight: 300;
+}
+.hero-buttons { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+
+.btn-play {
+  background: var(--white); color: var(--black);
+  border: none; padding: 12px 34px;
+  border-radius: 4px; font-size: 1rem; font-weight: 700;
+  display: flex; align-items: center; gap: 9px;
+  transition: background .2s;
+}
+.btn-play:hover { background: rgba(255,255,255,.82); }
+.btn-play .play-icon { font-size: 1.35rem; }
+
+.btn-more {
+  background: rgba(109,109,110,.7); color: var(--white);
+  border: none; padding: 12px 28px;
+  border-radius: 4px; font-size: 1rem; font-weight: 700;
+  display: flex; align-items: center; gap: 9px;
+  backdrop-filter: blur(4px); transition: background .2s;
+}
+.btn-more:hover { background: rgba(109,109,110,.5); }
+
+/* CONTENT ROWS */
+.content-sections {
+  padding: 0 60px; margin-top: -90px;
+  position: relative; z-index: 10;
+}
+.content-row { margin-bottom: 52px; position: relative; }
+.row-title {
+  font-size: 1.1rem; font-weight: 700;
+  color: #e5e5e5; margin-bottom: 12px; letter-spacing: .5px;
+}
+
+.cards-container { position: relative; }
+.cards-scroll {
+  display: flex; gap: 8px;
+  overflow-x: auto; scroll-behavior: smooth;
+  scrollbar-width: none; padding-bottom: 8px;
+}
+.cards-scroll::-webkit-scrollbar { display: none; }
+
+/* CARDS */
+.memory-card {
+  flex-shrink: 0; width: 200px;
+  border-radius: 4px; overflow: visible;
+  position: relative; cursor: pointer;
+  transition: transform .3s, z-index 0s;
+  z-index: 1;
+}
+.memory-card:hover {
+  transform: scale(1.26); z-index: 20;
+  transition: transform .3s, z-index 0s 0s;
+}
+
+.card-thumb {
+  width: 100%; aspect-ratio: 16/9;
+  border-radius: 4px; overflow: hidden;
+  position: relative;
+}
+.card-thumb-bg {
+  position:absolute; inset:0;
+  background-size:cover; background-position:center;
+}
+.card-thumb img {
+  width:100%; height:100%;
+  object-fit:cover;
+  position:absolute; inset:0; z-index:1;
+}
+.card-thumb .ph-box {
+  position:absolute; inset:0; z-index:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:4px;
+}
+.card-thumb .ph-box .ph-icon { font-size:1.6rem; opacity:.6; }
+.card-thumb .ph-box .ph-text { font-size:.58rem; color:rgba(255,255,255,.3); }
+
+.card-hover-info {
+  display: none;
+  position: absolute; top: 100%; left: 0; right: 0;
+  background: #181818;
+  border-radius: 0 0 4px 4px;
+  padding: 8px 10px 10px;
+  z-index: 30;
+  box-shadow: 0 8px 30px rgba(0,0,0,.6);
+}
+.memory-card:hover .card-hover-info { display: block; }
+.card-hover-title {
+  font-size: .75rem; font-weight: 700;
+  color: var(--white); white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis;
+}
+.card-hover-sub { font-size: .64rem; color: var(--lgray); margin-top: 3px; }
+
+/* Scroll arrows */
+.scroll-arrow {
+  position: absolute; top: 0; bottom: 0; width: 50px;
+  background: linear-gradient(to right, rgba(20,20,20,.95), transparent);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 25; border: none; color: white; font-size: 1.6rem;
+  opacity: 0; transition: opacity .2s; border-radius: 4px 0 0 4px;
+}
+.scroll-arrow.right {
+  right: 0; left: auto;
+  background: linear-gradient(to left, rgba(20,20,20,.95), transparent);
+  border-radius: 0 4px 4px 0;
+}
+.cards-container:hover .scroll-arrow { opacity: 1; }
+
+
+/* ============================================================
+   PAGE 4 — PLAYER
+   ============================================================ */
+.player-page {
+  background: #000;
+  height: 100vh; width: 100vw;
+  overflow: hidden; position: relative;
+}
+
+.player-slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .8s ease;
+}
+.player-slide.active { opacity: 1; }
+
+.slide-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+}
+.slide-bg img {
+  width:100%; height:100%;
+  object-fit: contain;
+  position: absolute; inset:0; z-index:1;
+}
+.slide-vignette {
+  position: absolute; inset: 0; z-index: 2;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.55) 100%);
+}
+.slide-ph-box {
+  position:absolute; inset:0; z-index:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:10px;
+}
+.slide-ph-box .ph-icon { font-size:4rem; opacity:.5; }
+.slide-ph-box .ph-text { font-size:.85rem; color:rgba(255,255,255,.3); }
+
+/* Player top bar */
+.player-top {
+  position: fixed; top: 0; left: 0; right: 0;
+  padding: 18px 60px;
+  background: linear-gradient(to bottom, rgba(0,0,0,.8), transparent);
+  z-index: 100;
+  display: flex; align-items: center; gap: 16px;
+  opacity: 0; transition: opacity .3s;
+}
+.player-page:hover .player-top,
+.player-page:hover .player-bottom { opacity: 1; }
+
+.player-back {
+  background: none; border: none; color: white;
+  font-size: 1.5rem; padding: 5px;
+  transition: transform .2s;
+}
+.player-back:hover { transform: scale(1.2); }
+.player-show-title { font-size: 1rem; font-weight: 700; }
+.player-ep-title   { font-size: .84rem; color: var(--lgray); font-weight: 400; }
+
+/* Player bottom controls */
+.player-bottom {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  padding: 60px 60px 28px;
+  background: linear-gradient(to top, rgba(0,0,0,.9), transparent);
+  z-index: 100; opacity: 0; transition: opacity .3s;
+}
+.progress-track {
+  width: 100%; height: 3px;
+  background: rgba(255,255,255,.25); border-radius: 3px;
+  cursor: pointer; margin-bottom: 16px; position: relative;
+}
+.progress-fill {
+  height: 100%; background: var(--red);
+  border-radius: 3px; transition: width .1s linear;
+  position: relative;
+}
+.progress-fill::after {
+  content: '';
+  position: absolute; right: -6px; top: 50%; transform: translateY(-50%);
+  width: 13px; height: 13px; background: white; border-radius: 50%;
+  opacity: 0; transition: opacity .2s;
+}
+.progress-track:hover .progress-fill::after { opacity: 1; }
+
+.controls-row {
+  display: flex; align-items: center; gap: 14px;
+}
+.pctrl {
+  background: none; border: none; color: white;
+  font-size: 1.6rem; padding: 5px; line-height: 1;
+  transition: transform .2s; display: flex; align-items: center;
+}
+.pctrl:hover { transform: scale(1.2); }
+.pctrl.large { font-size: 2rem; }
+
+.player-time { font-size: .84rem; color: var(--lgray); margin-left: 4px; white-space: nowrap; }
+
+.next-ep-btn {
+  margin-left: auto;
+  background: white; color: black; border: none;
+  padding: 10px 22px; border-radius: 3px;
+  font-size: .88rem; font-weight: 700;
+  display: flex; align-items: center; gap: 7px;
+  transition: background .2s;
+}
+.next-ep-btn:hover { background: rgba(255,255,255,.82); }
+
+.photo-counter {
+  position: fixed; top: 20px; right: 60px;
+  background: rgba(0,0,0,.5); color: white;
+  padding: 5px 14px; border-radius: 3px;
+  font-size: .82rem; z-index: 101;
+}
+
+
+/* ============================================================
+   PAGE 5 — CREDITS
+   ============================================================ */
+.credits-page { background: #000; height: 100vh; overflow: hidden; position: relative; }
+
+.credits-side-photo {
+  position: fixed; top: 30px; left: 30px;
+  width: 165px; height: 230px;
+  border-radius: 4px; overflow: hidden;
+  background: linear-gradient(135deg, #2a0010, #4a0020);
+  z-index: 20;
+  box-shadow: 0 10px 40px rgba(0,0,0,.8);
+}
+.credits-side-photo img { width:100%; height:100%; object-fit:cover; }
+
+.credits-scroll-wrap { position: absolute; inset: 0; overflow: hidden; }
+
+.credits-content {
+  width: 100%;
+  padding: 0 80px 0 225px;
+  animation: creditsRoll 55s linear forwards;
+}
+@keyframes creditsRoll {
+  from { transform: translateY(100vh); }
+  to   { transform: translateY(-100%); }
+}
+
+.credits-gap-top  { height: 28vh; }
+.credits-gap-bot  { height: 55vh; }
+
+.credits-header { text-align:center; margin-bottom: 70px; }
+.credits-badge  {
+  font-size: .62rem; letter-spacing: 6px; color: var(--red);
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.credits-main-title {
+  font-size: clamp(1.4rem,3vw,2.4rem);
+  font-weight: 900; margin-bottom: 4px;
+}
+.credits-main-sub {
+  font-size: .82rem; color: var(--gray); letter-spacing: 2px;
+}
+.credits-hr {
+  width: 55px; height: 1px;
+  background: var(--red); margin: 28px auto;
+  opacity: .55;
+}
+
+.credit-row {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 6px; margin-bottom: 18px; align-items: start;
+}
+.credit-role {
+  text-align: right; color: var(--gray);
+  font-size: .84rem; font-weight: 400;
+  padding-right: 24px; line-height: 1.6;
+}
+.credit-name {
+  color: var(--white); font-size: .84rem;
+  font-weight: 400; line-height: 1.6;
+}
+.credit-name.highlight { color: var(--red); font-weight: 700; }
+
+.credits-section-gap { height: 40px; }
+
+.credits-end {
+  text-align: center; margin-top: 55px;
+}
+.credits-end p {
+  color: var(--gray); font-size: .9rem;
+  line-height: 2.1; font-weight: 300;
+  font-style: italic;
+  white-space: pre-line;
+}
+.credits-heart {
+  color: var(--red); font-size: 2rem;
+  display: block; margin: 24px auto 0;
+  animation: heartbeat 1.6s ease-in-out infinite;
+}
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.25); }
+}
+
+
+/* ============================================================
+   GRADIENT PALETTE — placeholder backgrounds
+   ============================================================ */
+.g1 { background: linear-gradient(135deg, #2a0010, #700025); }
+.g2 { background: linear-gradient(135deg, #1a0030, #4a0055); }
+.g3 { background: linear-gradient(135deg, #200800, #601018); }
+.g4 { background: linear-gradient(135deg, #0a0020, #300055); }
+.g5 { background: linear-gradient(135deg, #250015, #500028); }
+.g6 { background: linear-gradient(135deg, #1a0800, #4a2008); }
+.g7 { background: linear-gradient(135deg, #200000, #600000); }
+.g8 { background: linear-gradient(135deg, #200025, #500048); }
+.g9 { background: linear-gradient(135deg, #102000, #304000); }
+.g10{ background: linear-gradient(135deg, #001020, #002050); }
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .netflix-nav { padding: 0 20px; }
+  .nav-links   { display: none; }
+
+  .hero-content { left: 20px; right: 20px; max-width: 100%; }
+  .content-sections { padding: 0 20px; }
+
+  .memory-card { width: 150px; }
+  .memory-card:hover { transform: scale(1.15); }
+
+  .player-top, .player-bottom { padding-left: 20px; padding-right: 20px; }
+
+  .credits-content { padding: 0 20px 0 195px; }
+  .credits-side-photo { width: 120px; height: 165px; }
+  .credit-row { grid-template-columns: 160px 1fr; }
+  .credit-role { padding-right: 14px; }
+
+  .profile-avatar { width: 120px; height: 120px; }
+  .profiles-grid  { gap: 20px; }
+}
