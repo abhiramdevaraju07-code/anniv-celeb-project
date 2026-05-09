@@ -50,7 +50,7 @@
     <div class="tap-hint">tap anywhere</div>
   </div>
 
-  <video id="v" src="intro.mp4" playsinline></video>
+  <video id="v" src="intro.mp4" playsinline muted></video>
 
   <script>
     const v   = document.getElementById('v');
@@ -65,8 +65,7 @@
     document.addEventListener('pointerdown', function start() {
       document.removeEventListener('pointerdown', start);
 
-      v.muted = false;
-      v.play().catch(() => goNext()); // if video fails on mobile, skip straight through
+      v.play().catch(() => goNext());
 
       tap.style.transition = 'opacity .3s';
       tap.style.opacity = '0';
