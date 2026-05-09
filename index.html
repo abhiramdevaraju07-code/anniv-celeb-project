@@ -56,26 +56,29 @@
     const v   = document.getElementById('v');
     const tap = document.getElementById('tap');
 
+    function goNext() {
+      document.body.style.transition = 'opacity .4s';
+      document.body.style.opacity = '0';
+      setTimeout(() => { window.location.href = 'profiles.html'; }, 420);
+    }
+
     document.addEventListener('pointerdown', function start() {
       document.removeEventListener('pointerdown', start);
 
-      // Real user gesture — audio now unlocked
       v.muted = false;
-      v.play();
+      v.play().catch(() => goNext()); // if video fails on mobile, skip straight through
 
-      // Fade tap screen out, fade video in
       tap.style.transition = 'opacity .3s';
       tap.style.opacity = '0';
       v.style.transition = 'opacity .3s';
       v.style.opacity = '1';
       setTimeout(() => tap.style.display = 'none', 320);
+
+      // Fallback: move on after 8s even if 'ended' never fires
+      setTimeout(goNext, 8000);
     }, { once: true });
 
-    v.addEventListener('ended', () => {
-      document.body.style.transition = 'opacity .4s';
-      document.body.style.opacity = '0';
-      setTimeout(() => { window.location.href = 'profiles.html'; }, 420);
-    });
+    v.addEventListener('ended', goNext);
   </script>
 </body>
 </html>
